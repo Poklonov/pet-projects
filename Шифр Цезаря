@@ -1,0 +1,66 @@
+def user_answer():
+    shifr = input('шифровать (1) или дешифровать (0): ')
+    while shifr not in ('1', '0'):
+        print('Неверный ввод!')
+        shifr = input('шифровать (1) или дешифровать (0): ')
+    alphabet = input('русский (1) или английский (0): ')
+    while alphabet not in ('1', '0'):
+        print('Неверный ввод!')
+        alphabet = input('русский (1) или английский (0): ')
+    step = input('шаг сдвига: ')
+    while not step.isdigit():
+        print('Неверный ввод!')
+        step = input('шаг сдвига: ')
+    return int(shifr), int(alphabet), int(step)
+
+
+def dictionary(alphabet):
+    if alphabet == 1:
+        upp = [chr(i) for i in range(ord('А'), ord('Я') + 1)]
+        low = [chr(i) for i in range(ord('а'), ord('я') + 1)]
+    else:
+        upp = [chr(i) for i in range(ord('A'), ord('Z') + 1)]
+        low = [chr(i) for i in range(ord('a'), ord('z') + 1)]
+    return upp, low
+
+
+def encode(step, upp, low):
+    s = input('Введите текст для шифрования: ')
+    for i in s:
+        if i.isupper():
+            x = upp.index(i) + step
+            if x > len(upp) - 1:
+                x -= len(upp)
+            print(upp[x], end='')
+        elif i.islower():
+            x = low.index(i) + step
+            if x > len(low) - 1:
+                x -= len(low)
+            print(low[x], end='')
+        else:
+            print(i, end='')
+
+
+def decode(step, upp, low):
+    s = input('Введите текст для дешифровки: ')
+    for i in s:
+        if i.isupper():
+            x = upp.index(i) - step
+            print(upp[x], end='')
+        elif i.islower():
+            x = low.index(i) - step
+            print(low[x], end='')
+        else:
+            print(i, end='')
+
+
+def main():
+    shifr, alphabet, step = user_answer()
+    upp, low = dictionary(alphabet)
+    if shifr == 1:
+        encode(step, upp, low)
+    else:
+        decode(step, upp, low)
+
+
+main()
